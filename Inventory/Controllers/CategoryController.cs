@@ -56,7 +56,7 @@ namespace Inventory.Controllers
         }
 
         [HttpPost()]
-        public async Task< ActionResult<CategoryDto>> Add(CategoryDto category) 
+        public async Task< ActionResult<Category>> Add(CategoryDto category) 
         {
             try
             {
@@ -74,7 +74,7 @@ namespace Inventory.Controllers
 
         }
         [HttpPut("{id}")]
-        public async Task< ActionResult<CategoryDto>> Update(int id, CategoryDto category)
+        public async Task< ActionResult<Category>> Update(int id, CategoryDto category)
         {
             try
             {

@@ -31,33 +31,31 @@ namespace Inventory.Test
         [Fact]
         public async Task Add_ReturnsOk_WhenCategoryAdded()
         {
-            //// Arrange
-            //var categorydto = new CategoryDto { Name = "Test2", Description = "Test Category2" };
-            ////var category = new Category();
-            ////_mockCategoryService.Setup(s => s.AddCategoryAsync(categorydto)).ReturnsAsync(category);
+            // Arrange
+            var categorydto = new CategoryDto { Name = "Test2", Description = "Test Category2" };
+            var category = new Category() { Name = "Test2", Description = "Test Category2" };
+            _mockCategoryService.Setup(s => s.AddCategoryAsync(categorydto)).ReturnsAsync(category);
 
-            //// Act
-            //var result = await _controller.Add(categorydto);
+            // Act
+            var result = await _controller.Add(categorydto);
 
-            //// Assert            
+            // Assert            
             //var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result);
             //Assert.Equal("Category already exists!", badRequest.Value);
 
-            ////var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            ////Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(category, okResult.Value);
         }
 
         [Fact]
         public async Task GetCategories_ReturnsOk_WithCategories()
         {
             // Arrange
-            var categoriedto = new List<CategoryDto> { };
-            //_mockCategoryService.Setup(s => s.GetCategoriesAsync()).ReturnsAsync(categoriedto);
+            var categoriedto = new List<CategoryDto> {new CategoryDto { Name = "Test2", Description = "Test Category2" } };
+            _mockCategoryService.Setup(s => s.GetCategoriesAsync()).ReturnsAsync(categoriedto);
 
             // Act
-            var result = await _controller.GetCategories();
-            //category = result.Result.FirstOrDefault<IEnumerable<CategoryDto>>();
+            var result = await _controller.GetCategories();      
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -67,24 +65,23 @@ namespace Inventory.Test
         [Fact]
         public async Task Get_ReturnsOk_WhenCategoryExists()
         {
-            // // Arrange
-            // var categorydto = new CategoryDto();
-            //// _mockCategoryService.Setup(s => s.GetCategoryAsync(1)).ReturnsAsync(categorydto);
+            // Arrange
+            var categorydto = new CategoryDto { Name = "Test2", Description = "Test Category2" };
+            _mockCategoryService.Setup(s => s.GetCategoryAsync(1)).ReturnsAsync(categorydto);
 
-            // // Act
-            // var result = await _controller.Get(1);
+            // Act
+            var result = await _controller.Get(1);
 
-            // // Assert
-            // var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            // Assert.Equal(categorydto, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(categorydto, okResult.Value);
         }
 
         [Fact]
         public async Task Get_ReturnsBadRequest_WhenCategoryNotFound()
         {
             // Arrange
-            //_mockCategoryService.Setup(s => s.GetCategoryAsync(1)).ReturnsAsync((CategoryDto)null);
+            _mockCategoryService.Setup(s => s.GetCategoryAsync(1)).ReturnsAsync((CategoryDto)null);
 
             // Act
             var result = await _controller.Get(1);
@@ -100,7 +97,8 @@ namespace Inventory.Test
         {
             // Arrange
             var categorydto = new CategoryDto { Name = "Test", Description = "Test Category" };
-            //_mockCategoryService.Setup(s => s.AddCategoryAsync(categorydto)).ReturnsAsync((CategoryDto)null);
+            var category = new Category() {Id=1, Name = "Test2", Description = "Test Category2" };
+            _mockCategoryService.Setup(s => s.AddCategoryAsync(categorydto)).ReturnsAsync((Category)null);
 
             // Act
             var result = await _controller.Add(categorydto);
@@ -113,28 +111,29 @@ namespace Inventory.Test
         [Fact]
         public async Task Update_ReturnsOk_WhenCategoryUpdated()
         {
-            //// Arrange
-            //var categorydto = new CategoryDto { Name = "Test", Description = "Test Category" };
-            ////_mockCategoryService.Setup(s => s.UpdateCategoryAsync(1, category)).ReturnsAsync(category);
+            // Arrange
+            var categorydto = new CategoryDto { Name = "Test", Description = "Test Category" };
+            var category = new Category() { Id = 1, Name = "Test2", Description = "Test Category2" };
+            _mockCategoryService.Setup(s => s.UpdateCategoryAsync(1, categorydto)).ReturnsAsync(category);
 
-            //// Act
-            //var result = await _controller.Update(1, categorydto);
+            // Act
+            var result = await _controller.Update(1, categorydto);
 
-            //// Assert
-            //var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            //Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(category, okResult.Value);
         }
 
         [Fact]
         public async Task Update_ReturnsBadRequest_WhenCategoryNotFound()
         {
             // Arrange
-            var category = new CategoryDto { Name = "Test", Description = "Test Category" };
-            //_mockCategoryService.Setup(s => s.UpdateCategoryAsync(1, category)).ReturnsAsync((CategoryDto)null);
+            var categorydto = new CategoryDto { Name = "Test", Description = "Test Category" };
+            var category = new Category() { Id = 1, Name = "Test2", Description = "Test Category2" };
+            //_mockCategoryService.Setup(s => s.UpdateCategoryAsync(1, categorydto)).ReturnsAsync((CategoryDto)null);
 
             // Act
-            var result = await _controller.Update(1, category);
+            var result = await _controller.Update(1, categorydto);
 
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result.Result);
@@ -171,17 +170,16 @@ namespace Inventory.Test
         [Fact]
         public async Task GetItems_ReturnsOk_WithItems()
         {
-            //// Arrange
-            ////var items = new List<ItemDto> { new ItemDto { Name = "Test", Description = "Test Category" } };
-            ////_mockItemService.Setup(s => s.GetCategorywiseItemsAsync(1)).ReturnsAsync(items);
+            // Arrange
+            var items = new List<Item> { new Item { Name = "Test", Description = "Test Category" } };
+            _mockItemService.Setup(s => s.GetCategorywiseItemsAsync(1)).ReturnsAsync(items);
 
-            //// Act
-            //var result = await _controller.GetItems(1);
+            // Act
+            var result = await _controller.GetItems(1);
 
-            //// Assert
-            //var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            //Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(items, okResult.Value);
         }
     }
 }

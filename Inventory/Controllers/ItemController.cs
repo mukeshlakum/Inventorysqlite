@@ -70,7 +70,7 @@ namespace Inventory.Controllers
         }
 
         [HttpPut("api/items/{id}")]
-        public async Task<ActionResult<ItemDto>> Update(int id, ItemDto itemdto)
+        public async Task<ActionResult<Item>> Update(int id, ItemDto itemdto)
         {
             try
             {

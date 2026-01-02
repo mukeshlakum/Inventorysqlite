@@ -104,8 +104,8 @@ namespace Inventory.Services
 
         public async Task<IEnumerable<Item>> GetCategorywiseItemsAsync(int categoryId)
         {
-            List<Item> items = await dbContext.Items.Where(a=> a.CategoryID == categoryId).ToListAsync<Item>();
-            return items;
+            return(await dbContext.Items.Where(a=> a.CategoryID == categoryId).ToListAsync<Item>());
+            //return items;
         }
 
         private string GetCategoryName(int categoryId)

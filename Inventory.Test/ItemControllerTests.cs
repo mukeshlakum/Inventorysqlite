@@ -1,4 +1,5 @@
 ﻿using Inventory.Controllers;
+using Inventory.Entities;
 using Inventory.Model;
 using Inventory.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -25,40 +26,38 @@ namespace Inventory.Test
         [Fact]
         public async Task GetItems_ReturnsOk_WithItems()
         {
-            //// Arrange
-            ////var items = new List<ItemDto> { new ItemDto { Description="Item1", Name = "Item1" } };
-            ////_mockItemService.Setup(s => s.GetItemsAsync()).ReturnsAsync(items);
+            // Arrange
+            var items = new List<ItemDto> { new ItemDto { Description="Item1", Name = "Item1" } };
+            _mockItemService.Setup(s => s.GetItemsAsync()).ReturnsAsync(items);
 
-            //// Act
-            //var result = await _controller.GetItems(null);
+            // Act
+            var result = await _controller.GetItems(null);
 
-            //// Assert
-            //var okResult = Assert.IsType<OkObjectResult>(result);
-            //Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(items, okResult.Value);
         }
 
         [Fact]
         public async Task Get_ReturnsOk_WhenItemExists()
         {
-            //// Arrange
-            ////var item = new ItemDto { Description = "Item1", Name = "Item1" };
-            ////_mockItemService.Setup(s => s.GetItemAsync(1)).ReturnsAsync(item);
+            // Arrange
+            var itemdto = new ItemDto { Description = "Item1", Name = "Item1" };
+            _mockItemService.Setup(s => s.GetItemAsync(1)).ReturnsAsync(itemdto);
 
-            //// Act
-            //var result = await _controller.Get(1);
+            // Act
+            var result = await _controller.Get(1);
 
-            //// Assert
-            //var okResult = Assert.IsType<OkObjectResult>(result);
-            //Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result);
+            Assert.Equal(itemdto, okResult.Value);
         }
 
         [Fact]
         public async Task Get_ReturnsBadRequest_WhenItemNotFound()
         {
             // Arrange
-            //_mockItemService.Setup(s => s.GetItemAsync(1)).ReturnsAsync((ItemDto)null);
+            _mockItemService.Setup(s => s.GetItemAsync(1)).ReturnsAsync((ItemDto)null);
 
             // Act
             var result = await _controller.Get(1);
@@ -71,17 +70,17 @@ namespace Inventory.Test
         [Fact]
         public async Task Add_ReturnsOk_WhenItemAdded()
         {
-            // // Arrange
-            // var itemDto = new ItemDto { Description = "Item1", Name = "Item1" };
-            //// _mockItemService.Setup(s => s.AddItemAsync(itemDto)).ReturnsAsync(itemDto);
+            // Arrange
+            var itemDto = new ItemDto { Description = "Item1", Name = "Item1" };
+            var item = new Item { Description = "Item1", Name = "Item1" };
+            _mockItemService.Setup(s => s.AddItemAsync(itemDto)).ReturnsAsync(item);
 
-            // // Act
-            // var result = await _controller.Add(itemDto);
+            // Act
+            var result = await _controller.Add(itemDto);
 
-            // // Assert
-            // var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            // Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(item, okResult.Value);
         }
 
         [Fact]
@@ -89,7 +88,7 @@ namespace Inventory.Test
         {
             // Arrange
             var itemDto = new ItemDto { Description = "Item1", Name = "Item1" };
-            //_mockItemService.Setup(s => s.AddItemAsync(itemDto)).ReturnsAsync((ItemDto)null);
+            _mockItemService.Setup(s => s.AddItemAsync(itemDto)).ReturnsAsync((Item)null);
 
             // Act
             var result = await _controller.Add(itemDto);
@@ -102,17 +101,17 @@ namespace Inventory.Test
         [Fact]
         public async Task Update_ReturnsOk_WhenItemUpdated()
         {
-            //// Arrange
-            //var itemDto = new ItemDto { Description = "Item1", Name = "Item1" };
-            ////_mockItemService.Setup(s => s.UpdateItemAsync(1, itemDto)).ReturnsAsync(itemDto);
+            // Arrange
+            var itemDto = new ItemDto { Description = "Item1", Name = "Item1" };
+            var item = new Item { Description = "Item1", Name = "Item1" };
+            _mockItemService.Setup(s => s.UpdateItemAsync(1, itemDto)).ReturnsAsync(item);
 
-            //// Act
-            //var result = await _controller.Update(1, itemDto);
+            // Act
+            var result = await _controller.Update(1, itemDto);
 
-            //// Assert
-            //var okResult = Assert.IsType<OkObjectResult>(result.Result);
-            //Assert.Equal(result, okResult.Value);
-            Assert.Equal(1, 1);
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            Assert.Equal(item, okResult.Value);
         }
 
         [Fact]
@@ -120,7 +119,7 @@ namespace Inventory.Test
         {
             // Arrange
             var itemDto = new ItemDto { Description = "Item1", Name = "Item1" };
-            //_mockItemService.Setup(s => s.UpdateItemAsync(1, itemDto)).ReturnsAsync((ItemDto)null);
+            _mockItemService.Setup(s => s.UpdateItemAsync(1, itemDto)).ReturnsAsync((Item)null);
 
             // Act
             var result = await _controller.Update(1, itemDto);
@@ -133,22 +132,21 @@ namespace Inventory.Test
         [Fact]
         public async Task Delete_ReturnsOk_WhenItemDeleted()
         {
-            //// Arrange
-            ////_mockItemService.Setup(s => s.DeleteItemAsync(1)).ReturnsAsync(true);
+            // Arrange
+            _mockItemService.Setup(s => s.DeleteItemAsync(1)).ReturnsAsync(true);
 
-            //// Act
-            //var result = await _controller.Delete(1);
+            // Act
+            var result = await _controller.Delete(1);
 
-            //// Assert
-            //Assert.IsType<OkResult>(result);
-            Assert.Equal(1, 1);
+            // Assert
+            Assert.IsType<OkResult>(result);
         }
 
         [Fact]
         public async Task Delete_ReturnsBadRequest_WhenItemNotFound()
         {
             // Arrange
-            //_mockItemService.Setup(s => s.DeleteItemAsync(1)).ReturnsAsync(false);
+            _mockItemService.Setup(s => s.DeleteItemAsync(1)).ReturnsAsync(false);
 
             // Act
             var result = await _controller.Delete(1);
